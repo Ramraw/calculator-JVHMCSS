@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculator</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <h1>Calculator</h1>
+    <form id="calculator-form">
+        <input type="number" name="num1" placeholder="Enter number 1" required>
+        <input type="number" name="num2" placeholder="Enter number 2" required>
+        <select name="operator">
+            <option value="add">+</option>
+            <option value="subtract">-</option>
+            <option value="multiply">*</option>
+            <option value="divide">/</option>
+        </select>
+        <button type="submit">Calculate</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('calculator-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const url = 'http://localhost:8000/';
+            
+            fetch(url, {
+                method: 'POST',
+                body: new URLSearchParams(formData)
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('result').textContent = 'Result: ' + data;
+            })
+            .catch(error => console.error(error));
+        });
+    </script>
+</body>
+</html>
